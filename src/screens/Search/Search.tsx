@@ -93,6 +93,42 @@ export const Search = ({ onNavigate }: SearchProps): JSX.Element => {
     },
   ];
 
+  // Podcasts from your network (followers/following)
+  const networkPodcasts = [
+    {
+      title: "Morning Motivation",
+      creator: "Alex Thompson",
+      relationship: "following",
+      timeAgo: "2 hours ago",
+      duration: "15 min",
+      listens: "1.2K",
+    },
+    {
+      title: "Design Thinking 101",
+      creator: "Sarah Chen",
+      relationship: "follower",
+      timeAgo: "5 hours ago", 
+      duration: "32 min",
+      listens: "856",
+    },
+    {
+      title: "Startup Journey",
+      creator: "Mike Rodriguez",
+      relationship: "following",
+      timeAgo: "1 day ago",
+      duration: "28 min", 
+      listens: "2.1K",
+    },
+    {
+      title: "Mindful Moments",
+      creator: "Emma Wilson",
+      relationship: "mutual",
+      timeAgo: "2 days ago",
+      duration: "18 min",
+      listens: "743",
+    },
+  ];
+
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-50 p-4">
       <div className="w-full max-w-sm mx-auto bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-200">
@@ -156,6 +192,46 @@ export const Search = ({ onNavigate }: SearchProps): JSX.Element => {
                   <Card key={index} className="bg-gray-100 rounded-lg p-4 border-0 h-20 flex flex-col items-center justify-center cursor-pointer hover:bg-gray-200 transition-colors">
                     <div className="text-2xl mb-1">{category.icon}</div>
                     <span className="text-base font-medium text-gray-800">{category.name}</span>
+                  </Card>
+                ))}
+              </div>
+            </div>
+
+            {/* Podcasts from Your Network Section */}
+            <div className="p-4">
+              <h2 className="text-lg font-medium text-gray-800 mb-4">From Your Network</h2>
+              <div className="space-y-3">
+                {networkPodcasts.map((podcast, index) => (
+                  <Card 
+                    key={index} 
+                    className="border border-gray-200 rounded-lg p-3 cursor-pointer hover:bg-gray-50 transition-colors"
+                    onClick={() => handlePodcastClick(podcast)}
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="w-12 h-12 bg-gray-400 rounded-lg flex items-center justify-center">
+                        <MicIcon className="w-4 h-4 text-white" />
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="font-medium text-gray-800 text-base">{podcast.title}</h3>
+                        <div className="flex items-center gap-1 mb-1">
+                          <span className="text-sm text-gray-600">by {podcast.creator}</span>
+                          <span className="text-xs px-2 py-0.5 rounded-full bg-blue-100 text-blue-700">
+                            {podcast.relationship === "following" ? "Following" : 
+                             podcast.relationship === "follower" ? "Follower" : "Mutual"}
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-2 text-xs text-gray-500">
+                          <span>{podcast.timeAgo}</span>
+                          <span>•</span>
+                          <span>{podcast.duration}</span>
+                          <span>•</span>
+                          <span>{podcast.listens} listens</span>
+                        </div>
+                      </div>
+                      <Button variant="ghost" size="icon" className="w-8 h-8">
+                        <MoreHorizontalIcon className="w-3 h-4 text-gray-600" />
+                      </Button>
+                    </div>
                   </Card>
                 ))}
               </div>
