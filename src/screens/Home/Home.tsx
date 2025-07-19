@@ -236,6 +236,7 @@ export const Home = ({ onNavigate }: HomeProps): JSX.Element => {
             {[
               { id: "followers", label: "Followers" },
               { id: "following", label: "Following" },
+              { id: "engagement", label: "Engagement" },
               { id: "suggested", label: "Suggested" },
             ].map((tab) => (
               <button
