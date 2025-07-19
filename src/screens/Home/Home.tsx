@@ -5,7 +5,7 @@ import { Button } from "../../components/ui/button";
 import { Card } from "../../components/ui/card";
 
 interface HomeProps {
-  onNavigate: (screen: string) => void;
+  onNavigate: (screen: string, podcastData?: any) => void;
 }
 
 export const Home = ({ onNavigate }: HomeProps): JSX.Element => {

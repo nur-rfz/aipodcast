@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Button } from "../../components/ui/button";
 
 interface PodcastPlayerProps {
-  onNavigate: (screen: string) => void;
+  onNavigate: (screen: string, podcastData?: any) => void;
   podcastData?: {
     title: string;
     podcast: string;

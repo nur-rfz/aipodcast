@@ -5,7 +5,7 @@ import { Button } from "../../components/ui/button";
 import { Card } from "../../components/ui/card";
 
 interface LibraryProps {
-  onNavigate: (screen: string) => void;
+  onNavigate: (screen: string, podcastData?: any) => void;
 }
 
 export const Library = ({ onNavigate }: LibraryProps): JSX.Element => {
@@ -52,7 +52,15 @@ export const Library = ({ onNavigate }: LibraryProps): JSX.Element => {
   ];
 
   const handlePodcastClick = (podcast: any) => {
-    onNavigate("player");
+    const podcastData = {
+      title: podcast.title,
+      podcast: podcast.subtitle ? podcast.subtitle.split(' • ')[0] : "Unknown Podcast",
+      episode: podcast.subtitle || "Episode 1 • 30 min",
+      duration: `${Math.floor(Math.random() * 30) + 30}:${String(Math.floor(Math.random() * 60)).padStart(2, '0')}`,
+      currentTime: `${Math.floor(Math.random() * 15) + 5}:${String(Math.floor(Math.random() * 60)).padStart(2, '0')}`,
+      progress: podcast.progress || Math.floor(Math.random() * 80) + 10,
+    };
+    onNavigate("player", podcastData);
   };
 
   // Saved Podcasts data

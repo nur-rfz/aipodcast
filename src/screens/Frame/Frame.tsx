@@ -12,9 +12,13 @@ import { PodcastPlayer } from "../PodcastPlayer";
 export const Frame = (): JSX.Element => {
   const [currentScreen, setCurrentScreen] = useState("generate");
   const [message, setMessage] = useState("");
+  const [selectedPodcast, setSelectedPodcast] = useState(null);
 
-  const handleNavigate = (screen: string) => {
+  const handleNavigate = (screen: string, podcastData?: any) => {
     setCurrentScreen(screen);
+    if (podcastData) {
+      setSelectedPodcast(podcastData);
+    }
   };
 
   // Show Home screen if selected
@@ -34,7 +38,7 @@ export const Frame = (): JSX.Element => {
 
   // Show Podcast Player screen if selected
   if (currentScreen === "player") {
-    return <PodcastPlayer onNavigate={handleNavigate} />;
+    return <PodcastPlayer onNavigate={handleNavigate} podcastData={selectedPodcast} />;
   }
 
   // Navigation items data

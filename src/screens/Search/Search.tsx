@@ -6,7 +6,7 @@ import { Card } from "../../components/ui/card";
 import { Input } from "../../components/ui/input";
 
 interface SearchProps {
-  onNavigate: (screen: string) => void;
+  onNavigate: (screen: string, podcastData?: any) => void;
 }
 
 export const Search = ({ onNavigate }: SearchProps): JSX.Element => {
@@ -60,7 +60,15 @@ export const Search = ({ onNavigate }: SearchProps): JSX.Element => {
   ];
 
   const handlePodcastClick = (podcast: any) => {
-    onNavigate("player");
+    const podcastData = {
+      title: podcast.title,
+      podcast: podcast.category,
+      episode: `Episode 1 • ${Math.floor(Math.random() * 60) + 20} min`,
+      duration: `${Math.floor(Math.random() * 30) + 30}:${String(Math.floor(Math.random() * 60)).padStart(2, '0')}`,
+      currentTime: `${Math.floor(Math.random() * 15) + 5}:${String(Math.floor(Math.random() * 60)).padStart(2, '0')}`,
+      progress: Math.floor(Math.random() * 80) + 10,
+    };
+    onNavigate("player", podcastData);
   };
 
   // Categories data
