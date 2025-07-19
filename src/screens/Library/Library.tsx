@@ -9,7 +9,7 @@ interface LibraryProps {
 }
 
 export const Library = ({ onNavigate }: LibraryProps): JSX.Element => {
-  const [activeTab, setActiveTab] = useState("saved");
+  const [activeTab, setActiveTab] = useState("downloaded");
 
   // Navigation items data
   const navItems = [
@@ -36,6 +36,62 @@ export const Library = ({ onNavigate }: LibraryProps): JSX.Element => {
       label: "Library",
       active: true,
       screen: "library",
+    },
+  ];
+
+  // Downloaded Podcasts data
+  const downloadedPodcasts = [
+    {
+      title: "The Tim Ferriss Show",
+      subtitle: "Tim Ferriss • Downloaded 2 hours ago",
+      size: "45.2 MB",
+      progress: 100,
+    },
+    {
+      title: "Radiolab",
+      subtitle: "WNYC Studios • Downloaded yesterday",
+      size: "32.8 MB", 
+      progress: 100,
+    },
+    {
+      title: "This American Life",
+      subtitle: "This American Life • Downloaded 3 days ago",
+      size: "58.1 MB",
+      progress: 100,
+    },
+  ];
+
+  // History data
+  const historyPodcasts = [
+    {
+      title: "How to Build Wealth",
+      subtitle: "The Investors Podcast • Played 2 hours ago",
+      duration: "1h 15m",
+      date: "Today",
+    },
+    {
+      title: "The Science of Sleep",
+      subtitle: "Huberman Lab • Played yesterday",
+      duration: "2h 30m", 
+      date: "Yesterday",
+    },
+    {
+      title: "Startup Stories",
+      subtitle: "How I Built This • Played 2 days ago",
+      duration: "45m",
+      date: "Dec 15",
+    },
+    {
+      title: "AI and the Future",
+      subtitle: "Lex Fridman Podcast • Played 3 days ago",
+      duration: "3h 20m",
+      date: "Dec 14",
+    },
+    {
+      title: "Mindfulness Meditation",
+      subtitle: "Ten Percent Happier • Played 1 week ago",
+      duration: "25m",
+      date: "Dec 10",
     },
   ];
 
@@ -133,111 +189,232 @@ export const Library = ({ onNavigate }: LibraryProps): JSX.Element => {
 
           {/* Content - Scrollable */}
           <div className="flex-1 overflow-y-auto">
-            {/* My Podcasts Section */}
-            <div className="p-4">
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="text-lg font-medium text-gray-800">My Podcasts</h2>
-                <Button variant="ghost" className="text-sm text-gray-500 hover:text-gray-700 p-0 h-auto">
-                  See All
-                </Button>
-              </div>
-              <div className="space-y-3">
-                {myPodcasts.map((podcast, index) => (
-                  <Card 
-                    key={index} 
-                    className="bg-gray-50 rounded-lg p-3 border-0 cursor-pointer hover:bg-gray-100 transition-colors"
-                    onClick={() => handlePodcastClick(podcast)}
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="w-12 h-12 bg-gray-400 rounded-lg flex items-center justify-center">
-                        <BookmarkIcon className="w-4 h-4 text-white" />
-                      </div>
-                      <div className="flex-1">
-                        <h3 className="font-medium text-gray-800 text-base">{podcast.title}</h3>
-                        <p className="text-sm text-gray-600">{podcast.subtitle}</p>
-                      </div>
-                      <Button variant="ghost" size="icon" className="w-8 h-8">
-                        <MoreHorizontalIcon className="w-3 h-4 text-gray-600" />
-                      </Button>
-                    </div>
-                  </Card>
-                ))}
-              </div>
-            </div>
-
-            {/* Saved Podcasts Section */}
-            <div className="p-4">
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="text-lg font-medium text-gray-800">Saved Podcasts</h2>
-                <Button variant="ghost" className="text-sm text-gray-500 hover:text-gray-700 p-0 h-auto">
-                  See All
-                </Button>
-              </div>
-              <div className="space-y-3">
-                {savedPodcasts.map((podcast, index) => (
-                  <Card 
-                    key={index} 
-                    className="border border-gray-200 rounded-lg p-3 cursor-pointer hover:bg-gray-50 transition-colors"
-                    onClick={() => handlePodcastClick(podcast)}
-                  >
-                    <div className="flex items-center gap-3">
-                      <Avatar className="w-12 h-12">
-                        <AvatarFallback className="bg-gray-300 text-gray-600 text-sm">
-                          {podcast.title.split(' ').map(n => n[0]).join('').slice(0, 2)}
-                        </AvatarFallback>
-                      </Avatar>
-                      <div className="flex-1">
-                        <h3 className="font-medium text-gray-800 text-base">{podcast.title}</h3>
-                        <p className="text-sm text-gray-600">{podcast.subtitle}</p>
-                      </div>
-                      <Button variant="ghost" size="icon" className="w-8 h-8">
-                        <BookmarkIcon className="w-4 h-4 text-gray-500" />
-                      </Button>
-                    </div>
-                  </Card>
-                ))}
-              </div>
-            </div>
-
-            {/* Recently Played Section */}
-            <div className="p-4 pb-6">
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="text-lg font-medium text-gray-800">Recently Played</h2>
-                <Button variant="ghost" className="text-sm text-gray-500 hover:text-gray-700 p-0 h-auto">
-                  Clear All
-                </Button>
-              </div>
-              <div className="space-y-3">
-                {recentlyPlayed.map((episode, index) => (
-                  <Card 
-                    key={index} 
-                    className="border border-gray-200 rounded-lg p-3 cursor-pointer hover:bg-gray-50 transition-colors"
-                    onClick={() => handlePodcastClick(episode)}
-                  >
-                    <div className="flex items-center gap-3">
-                      <Avatar className="w-12 h-12">
-                        <AvatarFallback className="bg-gray-300 text-gray-600 text-sm">
-                          {episode.title.split(' ').map(n => n[0]).join('').slice(0, 2)}
-                        </AvatarFallback>
-                      </Avatar>
-                      <div className="flex-1">
-                        <h3 className="font-medium text-gray-800 text-base">{episode.title}</h3>
-                        <p className="text-sm text-gray-600 mb-2">{episode.subtitle}</p>
-                        <div className="w-full bg-gray-200 rounded-full h-1">
-                          <div 
-                            className="bg-black h-1 rounded-full transition-all duration-300" 
-                            style={{ width: `${episode.progress}%` }}
-                          ></div>
+            {activeTab === "downloaded" && (
+              <div className="p-4">
+                <div className="flex items-center justify-between mb-4">
+                  <h2 className="text-lg font-medium text-gray-800">Downloaded Episodes</h2>
+                  <Button variant="ghost" className="text-sm text-gray-500 hover:text-gray-700 p-0 h-auto">
+                    Manage
+                  </Button>
+                </div>
+                <div className="space-y-3">
+                  {downloadedPodcasts.map((podcast, index) => (
+                    <Card 
+                      key={index} 
+                      className="border border-gray-200 rounded-lg p-3 cursor-pointer hover:bg-gray-50 transition-colors"
+                      onClick={() => handlePodcastClick(podcast)}
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className="relative">
+                          <Avatar className="w-12 h-12">
+                            <AvatarFallback className="bg-gray-300 text-gray-600 text-sm">
+                              {podcast.title.split(' ').map(n => n[0]).join('').slice(0, 2)}
+                            </AvatarFallback>
+                          </Avatar>
+                          <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 rounded-full flex items-center justify-center">
+                            <span className="text-white text-xs">✓</span>
+                          </div>
                         </div>
+                        <div className="flex-1">
+                          <h3 className="font-medium text-gray-800 text-base">{podcast.title}</h3>
+                          <p className="text-sm text-gray-600">{podcast.subtitle}</p>
+                          <p className="text-xs text-gray-500">{podcast.size}</p>
+                        </div>
+                        <Button variant="ghost" size="icon" className="w-8 h-8">
+                          <MoreHorizontalIcon className="w-3 h-4 text-gray-600" />
+                        </Button>
                       </div>
-                      <Button variant="ghost" size="icon" className="w-8 h-8">
-                        <MoreHorizontalIcon className="w-3 h-4 text-gray-600" />
-                      </Button>
+                    </Card>
+                  ))}
+                </div>
+                
+                {/* Storage Info */}
+                <Card className="bg-gray-50 rounded-lg p-4 border-0 mt-6">
+                  <div className="text-center">
+                    <h4 className="font-medium text-gray-800 mb-1">Storage Used</h4>
+                    <p className="text-sm text-gray-600 mb-3">136.1 MB of 2 GB used</p>
+                    <div className="w-full bg-gray-200 rounded-full h-2 mb-3">
+                      <div className="bg-blue-500 h-2 rounded-full" style={{ width: '6.8%' }}></div>
                     </div>
-                  </Card>
-                ))}
+                    <Button variant="outline" size="sm" className="border-gray-300 text-gray-700 hover:bg-white">
+                      Manage Storage
+                    </Button>
+                  </div>
+                </Card>
               </div>
-            </div>
+            )}
+
+            {activeTab === "saved" && (
+              <>
+                {/* My Podcasts Section */}
+                <div className="p-4">
+                  <div className="flex items-center justify-between mb-4">
+                    <h2 className="text-lg font-medium text-gray-800">My Podcasts</h2>
+                    <Button variant="ghost" className="text-sm text-gray-500 hover:text-gray-700 p-0 h-auto">
+                      See All
+                    </Button>
+                  </div>
+                  <div className="space-y-3">
+                    {myPodcasts.map((podcast, index) => (
+                      <Card 
+                        key={index} 
+                        className="bg-gray-50 rounded-lg p-3 border-0 cursor-pointer hover:bg-gray-100 transition-colors"
+                        onClick={() => handlePodcastClick(podcast)}
+                      >
+                        <div className="flex items-center gap-3">
+                          <div className="w-12 h-12 bg-gray-400 rounded-lg flex items-center justify-center">
+                            <BookmarkIcon className="w-4 h-4 text-white" />
+                          </div>
+                          <div className="flex-1">
+                            <h3 className="font-medium text-gray-800 text-base">{podcast.title}</h3>
+                            <p className="text-sm text-gray-600">{podcast.subtitle}</p>
+                          </div>
+                          <Button variant="ghost" size="icon" className="w-8 h-8">
+                            <MoreHorizontalIcon className="w-3 h-4 text-gray-600" />
+                          </Button>
+                        </div>
+                      </Card>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Saved Podcasts Section */}
+                <div className="p-4">
+                  <div className="flex items-center justify-between mb-4">
+                    <h2 className="text-lg font-medium text-gray-800">Saved Podcasts</h2>
+                    <Button variant="ghost" className="text-sm text-gray-500 hover:text-gray-700 p-0 h-auto">
+                      See All
+                    </Button>
+                  </div>
+                  <div className="space-y-3">
+                    {savedPodcasts.map((podcast, index) => (
+                      <Card 
+                        key={index} 
+                        className="border border-gray-200 rounded-lg p-3 cursor-pointer hover:bg-gray-50 transition-colors"
+                        onClick={() => handlePodcastClick(podcast)}
+                      >
+                        <div className="flex items-center gap-3">
+                          <Avatar className="w-12 h-12">
+                            <AvatarFallback className="bg-gray-300 text-gray-600 text-sm">
+                              {podcast.title.split(' ').map(n => n[0]).join('').slice(0, 2)}
+                            </AvatarFallback>
+                          </Avatar>
+                          <div className="flex-1">
+                            <h3 className="font-medium text-gray-800 text-base">{podcast.title}</h3>
+                            <p className="text-sm text-gray-600">{podcast.subtitle}</p>
+                          </div>
+                          <Button variant="ghost" size="icon" className="w-8 h-8">
+                            <BookmarkIcon className="w-4 h-4 text-gray-500" />
+                          </Button>
+                        </div>
+                      </Card>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Recently Played Section */}
+                <div className="p-4 pb-6">
+                  <div className="flex items-center justify-between mb-4">
+                    <h2 className="text-lg font-medium text-gray-800">Recently Played</h2>
+                    <Button variant="ghost" className="text-sm text-gray-500 hover:text-gray-700 p-0 h-auto">
+                      Clear All
+                    </Button>
+                  </div>
+                  <div className="space-y-3">
+                    {recentlyPlayed.map((episode, index) => (
+                      <Card 
+                        key={index} 
+                        className="border border-gray-200 rounded-lg p-3 cursor-pointer hover:bg-gray-50 transition-colors"
+                        onClick={() => handlePodcastClick(episode)}
+                      >
+                        <div className="flex items-center gap-3">
+                          <Avatar className="w-12 h-12">
+                            <AvatarFallback className="bg-gray-300 text-gray-600 text-sm">
+                              {episode.title.split(' ').map(n => n[0]).join('').slice(0, 2)}
+                            </AvatarFallback>
+                          </Avatar>
+                          <div className="flex-1">
+                            <h3 className="font-medium text-gray-800 text-base">{episode.title}</h3>
+                            <p className="text-sm text-gray-600 mb-2">{episode.subtitle}</p>
+                            <div className="w-full bg-gray-200 rounded-full h-1">
+                              <div 
+                                className="bg-black h-1 rounded-full transition-all duration-300" 
+                                style={{ width: `${episode.progress}%` }}
+                              ></div>
+                            </div>
+                          </div>
+                          <Button variant="ghost" size="icon" className="w-8 h-8">
+                            <MoreHorizontalIcon className="w-3 h-4 text-gray-600" />
+                          </Button>
+                        </div>
+                      </Card>
+                    ))}
+                  </div>
+                </div>
+              </>
+            )}
+
+            {activeTab === "history" && (
+              <div className="p-4">
+                <div className="flex items-center justify-between mb-4">
+                  <h2 className="text-lg font-medium text-gray-800">Listening History</h2>
+                  <Button variant="ghost" className="text-sm text-gray-500 hover:text-gray-700 p-0 h-auto">
+                    Clear All
+                  </Button>
+                </div>
+                <div className="space-y-3">
+                  {historyPodcasts.map((podcast, index) => (
+                    <Card 
+                      key={index} 
+                      className="border border-gray-200 rounded-lg p-3 cursor-pointer hover:bg-gray-50 transition-colors"
+                      onClick={() => handlePodcastClick(podcast)}
+                    >
+                      <div className="flex items-center gap-3">
+                        <Avatar className="w-12 h-12">
+                          <AvatarFallback className="bg-gray-300 text-gray-600 text-sm">
+                            {podcast.title.split(' ').map(n => n[0]).join('').slice(0, 2)}
+                          </AvatarFallback>
+                        </Avatar>
+                        <div className="flex-1">
+                          <h3 className="font-medium text-gray-800 text-base">{podcast.title}</h3>
+                          <p className="text-sm text-gray-600">{podcast.subtitle}</p>
+                          <div className="flex items-center gap-2 mt-1">
+                            <span className="text-xs text-gray-500">{podcast.duration}</span>
+                            <span className="text-xs text-gray-400">•</span>
+                            <span className="text-xs text-gray-500">{podcast.date}</span>
+                          </div>
+                        </div>
+                        <Button variant="ghost" size="icon" className="w-8 h-8">
+                          <MoreHorizontalIcon className="w-3 h-4 text-gray-600" />
+                        </Button>
+                      </div>
+                    </Card>
+                  ))}
+                </div>
+                
+                {/* History Stats */}
+                <Card className="bg-gray-50 rounded-lg p-4 border-0 mt-6">
+                  <div className="text-center">
+                    <h4 className="font-medium text-gray-800 mb-1">This Week</h4>
+                    <p className="text-sm text-gray-600 mb-3">You've listened to 12 hours of podcasts</p>
+                    <div className="grid grid-cols-3 gap-4 text-center">
+                      <div>
+                        <div className="text-lg font-semibold text-gray-800">5</div>
+                        <div className="text-xs text-gray-600">Episodes</div>
+                      </div>
+                      <div>
+                        <div className="text-lg font-semibold text-gray-800">3</div>
+                        <div className="text-xs text-gray-600">Podcasts</div>
+                      </div>
+                      <div>
+                        <div className="text-lg font-semibold text-gray-800">12h</div>
+                        <div className="text-xs text-gray-600">Total Time</div>
+                      </div>
+                    </div>
+                  </div>
+                </Card>
+              </div>
+            )}
           </div>
 
           {/* Now Playing Bar */}
