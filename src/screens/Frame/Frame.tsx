@@ -329,10 +329,40 @@ export const Frame = (): JSX.Element => {
         };
       } else if (option.includes("minutes") && option.includes("⏱️")) {
         // This is a length selection, trigger podcast generation
-        const topic = "sustainable living"; // This would be extracted from conversation context
-        const format = "Educational format"; // This would be extracted from conversation context
+        const topic = messages.find(m => m.sender === "user")?.content || "Your Topic";
+        const format = "Podcast format";
         simulatePodcastGeneration(topic, format, option);
         return; // Don't add the normal AI response
+      } else if (option.includes("Content planning") || option.includes("Recording setup") || 
+                 option.includes("Audience building") || option.includes("Topic brainstorming")) {
+        aiResponse = {
+          id: messages.length + 2,
+          sender: "ai",
+          content: "Great choice! Now let's get your podcast created. What's your preferred episode length for this topic?",
+          timestamp: new Date(),
+          options: [
+            "⏱️ 15-20 minutes (short format)",
+            "⏱️ 30-45 minutes (standard)",
+            "⏱️ 60+ minutes (long form)"
+          ]
+        };
+      } else if (option.includes("Weekly themes") || option.includes("Series format") || 
+                 option.includes("Educational episodes") || option.includes("Mixed content") ||
+                 option.includes("Business") || option.includes("Technology") || 
+                 option.includes("Health") || option.includes("Creative") ||
+                 option.includes("Solo expertise") || option.includes("Interview guests") ||
+                 option.includes("Panel discussions") || option.includes("Storytelling")) {
+        aiResponse = {
+          id: messages.length + 2,
+          sender: "ai",
+          content: "Perfect! That's exactly what your audience will love. Now let's create your first episode. How long would you like it to be?",
+          timestamp: new Date(),
+          options: [
+            "⏱️ 15-20 minutes (short format)",
+            "⏱️ 30-45 minutes (standard)",
+            "⏱️ 60+ minutes (long form)"
+          ]
+        };
       } else if (option.includes("Complete beginner")) {
         aiResponse = {
           id: messages.length + 2,
