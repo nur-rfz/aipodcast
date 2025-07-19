@@ -333,17 +333,117 @@ export const Frame = (): JSX.Element => {
         const format = "Educational format"; // This would be extracted from conversation context
         simulatePodcastGeneration(topic, format, option);
         return; // Don't add the normal AI response
+      } else if (option.includes("Complete beginner")) {
+        aiResponse = {
+          id: messages.length + 2,
+          sender: "ai",
+          content: "Perfect! As a beginner, I'll guide you through everything step by step. Let's start with the basics. What type of podcast format appeals to you most?",
+          timestamp: new Date(),
+          options: [
+            "🎤 Solo commentary (just you talking)",
+            "👥 Interview style (you + guests)",
+            "📚 Educational/tutorial format",
+            "💬 Conversational with co-host"
+          ]
+        };
+      } else if (option.includes("Some experience")) {
+        aiResponse = {
+          id: messages.length + 2,
+          sender: "ai",
+          content: "Great! Since you have some experience, we can dive deeper into content strategy. What's your main goal with this new podcast?",
+          timestamp: new Date(),
+          options: [
+            "🎯 Build personal brand",
+            "💼 Generate business leads",
+            "📈 Monetize content",
+            "🌟 Share expertise/passion"
+          ]
+        };
+      } else if (option.includes("Experienced podcaster")) {
+        aiResponse = {
+          id: messages.length + 2,
+          sender: "ai",
+          content: "Excellent! As an experienced podcaster, you know the drill. Let's focus on creating high-quality content efficiently. What's your biggest challenge right now?",
+          timestamp: new Date(),
+          options: [
+            "⏰ Content creation speed",
+            "🎯 Audience growth",
+            "💡 Fresh topic ideas",
+            "🔧 Production workflow"
+          ]
+        };
+      } else if (option.includes("Professional creator")) {
+        aiResponse = {
+          id: messages.length + 2,
+          sender: "ai",
+          content: "Amazing! As a professional, you understand the industry well. I can help you scale your content creation. What type of content are you looking to produce?",
+          timestamp: new Date(),
+          options: [
+            "🚀 Premium series content",
+            "📊 Data-driven episodes",
+            "🎬 Multi-format content",
+            "🔄 Batch content creation"
+          ]
+        };
+      } else if (option.includes("Solo commentary")) {
+        aiResponse = {
+          id: messages.length + 2,
+          sender: "ai",
+          content: "Solo podcasts are fantastic for building a personal connection with your audience! I'll help you create engaging monologue content. How long would you like your episodes to be?",
+          timestamp: new Date(),
+          options: [
+            "⏱️ 10-15 minutes (bite-sized)",
+            "⏱️ 20-30 minutes (standard)",
+            "⏱️ 45+ minutes (deep dive)"
+          ]
+        };
+      } else if (option.includes("Interview style")) {
+        aiResponse = {
+          id: messages.length + 2,
+          sender: "ai",
+          content: "Interview podcasts are great for providing diverse perspectives! I'll help you create compelling questions and structure. What's your target episode length?",
+          timestamp: new Date(),
+          options: [
+            "⏱️ 30-45 minutes (focused)",
+            "⏱️ 45-60 minutes (standard)",
+            "⏱️ 60+ minutes (in-depth)"
+          ]
+        };
+      } else if (option.includes("Educational/tutorial")) {
+        aiResponse = {
+          id: messages.length + 2,
+          sender: "ai",
+          content: "Educational content is incredibly valuable! I'll help you break down complex topics into digestible episodes. What's your preferred episode structure?",
+          timestamp: new Date(),
+          options: [
+            "⏱️ 15-20 minutes (quick lessons)",
+            "⏱️ 30-45 minutes (comprehensive)",
+            "⏱️ 60+ minutes (masterclass style)"
+          ]
+        };
+      } else if (option.includes("Conversational with co-host")) {
+        aiResponse = {
+          id: messages.length + 2,
+          sender: "ai",
+          content: "Co-hosted shows create great dynamic conversations! I'll help you plan topics and talking points that work well for two hosts. How long do you want each episode?",
+          timestamp: new Date(),
+          options: [
+            "⏱️ 25-35 minutes (casual chat)",
+            "⏱️ 45-60 minutes (deep discussion)",
+            "⏱️ 60+ minutes (extended conversation)"
+          ]
+        };
       } else {
         aiResponse = {
           id: messages.length + 2,
           sender: "ai",
-          content: "That's a great choice! I'll help you develop this further. Let me gather a bit more information to create the best content for you. What's your experience level with podcasting?",
+          content: "That's a great choice! I'll help you develop this further. Let me know what specific aspect you'd like to focus on first.",
           timestamp: new Date(),
           options: [
-            "🆕 Complete beginner",
-            "📈 Some experience",
-            "🎙️ Experienced podcaster",
-            "💼 Professional creator"
+            "📝 Content planning",
+            "🎙️ Recording setup",
+            "📈 Audience building",
+            "💡 Topic brainstorming"
           ]
         };
       }
