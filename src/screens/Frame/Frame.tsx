@@ -13,6 +13,9 @@ export const Frame = (): JSX.Element => {
   const [currentScreen, setCurrentScreen] = useState("generate");
   const [inputMessage, setInputMessage] = useState("");
   const [selectedPodcast, setSelectedPodcast] = useState(null);
+  const [isGeneratingPodcast, setIsGeneratingPodcast] = useState(false);
+  const [generationProgress, setGenerationProgress] = useState(0);
+  const [generatedPodcast, setGeneratedPodcast] = useState(null);
   const [messages, setMessages] = useState([
     {
       id: 1,
@@ -136,6 +139,87 @@ export const Frame = (): JSX.Element => {
     }
   };
 
+  const simulatePodcastGeneration = (topic: string, format: string, length: string) => {
+    setIsGeneratingPodcast(true);
+    setGenerationProgress(0);
+    
+    // Add generation start message
+    const generationMessage = {
+      id: messages.length + 1,
+      sender: "ai",
+      content: `Perfect! I'm now generating your podcast about "${topic}" in ${format} format with ${length} length. This will take a few moments...`,
+      timestamp: new Date(),
+      options: []
+    };
+    
+    setMessages(prev => [...prev, generationMessage]);
+    
+    // Simulate progress steps
+    const steps = [
+      { progress: 15, message: "🧠 Analyzing topic and gathering insights..." },
+      { progress: 30, message: "📝 Creating episode structure and outline..." },
+      { progress: 50, message: "🎙️ Writing engaging script and dialogue..." },
+      { progress: 70, message: "🎵 Adding transitions and audio cues..." },
+      { progress: 85, message: "✨ Polishing content and final touches..." },
+      { progress: 100, message: "🎉 Your podcast is ready!" }
+    ];
+    
+    let currentStep = 0;
+    const progressInterval = setInterval(() => {
+      if (currentStep < steps.length) {
+        setGenerationProgress(steps[currentStep].progress);
+        
+        // Add progress message
+        const progressMessage = {
+          id: messages.length + 2 + currentStep,
+          sender: "ai",
+          content: steps[currentStep].message,
+          timestamp: new Date(),
+          options: [],
+          isProgress: true
+        };
+        
+        setMessages(prev => [...prev, progressMessage]);
+        currentStep++;
+      } else {
+        clearInterval(progressInterval);
+        
+        // Generate final podcast data
+        const podcastData = {
+          title: topic.includes("sustainable") ? "Sustainable Living Made Simple" :
+                 topic.includes("tech") ? "The Future of Technology" :
+                 topic.includes("business") ? "Business Growth Strategies" :
+                 topic.includes("health") ? "Wellness and You" :
+                 `${topic} Insights`,
+          duration: length.includes("15-20") ? "18:45" : 
+                   length.includes("30-45") ? "42:30" : "68:15",
+          format: format,
+          topic: topic,
+          script: "Full script generated with engaging content, natural transitions, and clear call-to-actions.",
+          audioReady: true
+        };
+        
+        setGeneratedPodcast(podcastData);
+        setIsGeneratingPodcast(false);
+        
+        // Add completion message with options
+        const completionMessage = {
+          id: messages.length + 10,
+          sender: "ai",
+          content: `🎉 Your podcast "${podcastData.title}" is ready! Duration: ${podcastData.duration}. What would you like to do next?`,
+          timestamp: new Date(),
+          options: [
+            "🎧 Preview Podcast",
+            "📝 View Full Script", 
+            "📤 Publish to Library",
+            "🔄 Generate Another"
+          ]
+        };
+        
+        setMessages(prev => [...prev, completionMessage]);
+      }
+    }, 1500); // Progress every 1.5 seconds
+  };
   const handleOptionClick = (option: string) => {
     // Add user's option selection as a message
     const userMessage = {
@@ -153,7 +237,59 @@ export const Frame = (): JSX.Element => {
     setTimeout(() => {
       let aiResponse;
       
-      if (option.includes("Generate episode outline")) {
+      if (option.includes("Preview Podcast")) {
+        // Navigate to podcast player with generated content
+        const podcastPlayerData = {
+          title: generatedPodcast?.title || "Generated Podcast",
+          podcast: "Your Podcast",
+          episode: "Episode 1 • " + (generatedPodcast?.duration || "30 min"),
+          duration: generatedPodcast?.duration || "30:00",
+          currentTime: "0:00",
+          progress: 0,
+        };
+        setSelectedPodcast(podcastPlayerData);
+        setCurrentScreen("player");
+        return;
+      } else if (option.includes("View Full Script")) {
+        aiResponse = {
+          id: messages.length + 2,
+          sender: "ai",
+          content: `Here's your complete podcast script:\n\n[INTRO]\nWelcome to "${generatedPodcast?.title}"...\n\n[MAIN CONTENT]\nToday we're exploring ${generatedPodcast?.topic}...\n\n[CONCLUSION]\nThat's a wrap for today's episode...\n\nWould you like me to make any adjustments?`,
+          timestamp: new Date(),
+          options: [
+            "✏️ Edit Script",
+            "💾 Save Script",
+            "🎧 Preview Audio",
+            "📤 Publish Episode"
+          ]
+        };
+      } else if (option.includes("Publish to Library")) {
+        aiResponse = {
+          id: messages.length + 2,
+          sender: "ai",
+          content: `Great! I'm publishing "${generatedPodcast?.title}" to your library. Your podcast will be available in the Library section and can be shared with your followers.`,
+          timestamp: new Date(),
+          options: [
+            "📚 View in Library",
+            "📱 Share Podcast",
+            "🎙️ Create Another",
+            "📊 View Analytics"
+          ]
+        };
+      } else if (option.includes("Generate Another")) {
+        aiResponse = {
+          id: messages.length + 2,
+          sender: "ai",
+          content: "Excellent! Let's create another podcast. What topic would you like to explore this time?",
+          timestamp: new Date(),
+          options: [
+            "💡 Suggest Popular Topics",
+            "🔄 Use Different Format",
+            "📈 Business & Finance",
+            "🎨 Creative & Arts"
+          ]
+        };
+      } else if (option.includes("Generate episode outline")) {
         aiResponse = {
           id: messages.length + 2,
           sender: "ai",
@@ -191,6 +327,12 @@ export const Frame = (): JSX.Element => {
             "🔄 Ongoing series"
           ]
         };
+      } else if (option.includes("minutes") && option.includes("⏱️")) {
+        // This is a length selection, trigger podcast generation
+        const topic = "sustainable living"; // This would be extracted from conversation context
+        const format = "Educational format"; // This would be extracted from conversation context
+        simulatePodcastGeneration(topic, format, option);
+        return; // Don't add the normal AI response
       } else {
         aiResponse = {
           id: messages.length + 2,
@@ -282,6 +424,19 @@ export const Frame = (): JSX.Element => {
                     ? "bg-gray-100 rounded-tl-md" 
                     : "bg-black rounded-tr-md"
                 }`}>
+                  {/* Progress bar for generation messages */}
+                  {message.isProgress && isGeneratingPodcast && (
+                    <div className="mb-3">
+                      <div className="w-full bg-gray-200 rounded-full h-2">
+                        <div 
+                          className="bg-blue-500 h-2 rounded-full transition-all duration-500" 
+                          style={{ width: `${generationProgress}%` }}
+                        ></div>
+                      </div>
+                      <div className="text-xs text-gray-500 mt-1">{generationProgress}% complete</div>
+                    </div>
+                  )}
+                  
                   <div className={`text-sm leading-relaxed ${
                     message.sender === "ai" ? "text-gray-800" : "text-white"
                   }`}>
@@ -336,18 +491,35 @@ export const Frame = (): JSX.Element => {
 
           {/* Message Input */}
           <div className="p-4 bg-white border-t border-gray-200">
+            {/* Generation Status */}
+            {isGeneratingPodcast && (
+              <div className="mb-3 p-3 bg-blue-50 rounded-lg border border-blue-200">
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
+                  <span className="text-sm font-medium text-blue-800">Generating your podcast...</span>
+                </div>
+                <div className="w-full bg-blue-200 rounded-full h-2">
+                  <div 
+                    className="bg-blue-500 h-2 rounded-full transition-all duration-500" 
+                    style={{ width: `${generationProgress}%` }}
+                  ></div>
+                </div>
+                <div className="text-xs text-blue-600 mt-1">{generationProgress}% complete</div>
+              </div>
+            )}
+            
             <div className="flex items-center gap-2 bg-gray-100 rounded-full px-4 py-3">
               <Input
                 value={inputMessage}
                 onChange={(e) => setInputMessage(e.target.value)}
                 onKeyPress={handleKeyPress}
-                disabled={isTyping}
+                disabled={isTyping || isGeneratingPodcast}
                 className="flex-1 border-0 bg-transparent shadow-none text-sm placeholder:text-gray-500 focus-visible:ring-0"
                 placeholder="Type your message..."
               />
               <Button
                 onClick={handleSendMessage}
-                disabled={isTyping || !inputMessage.trim()}
+                disabled={isTyping || isGeneratingPodcast || !inputMessage.trim()}
                 size="icon"
                 className="w-8 h-8 bg-black hover:bg-gray-800 rounded-full flex-shrink-0 disabled:opacity-50 disabled:cursor-not-allowed"
               >
