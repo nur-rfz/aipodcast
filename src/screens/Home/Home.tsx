@@ -1,4 +1,4 @@
-import { BookmarkIcon, MicIcon, SearchIcon, MoreHorizontalIcon, HomeIcon, UserPlusIcon, UsersIcon } from "lucide-react";
+import { BookmarkIcon, MicIcon, SearchIcon, MoreHorizontalIcon, HomeIcon, UserPlusIcon, UsersIcon, HeartIcon, MessageCircleIcon } from "lucide-react";
 import React, { useState } from "react";
 import { Avatar, AvatarFallback } from "../../components/ui/avatar";
 import { Button } from "../../components/ui/button";
