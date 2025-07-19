@@ -391,7 +391,7 @@ export const Home = ({ onNavigate }: HomeProps): JSX.Element => {
                 </Card>
               </div>
             )}
-          </div>
+
             {activeTab === "engagement" && (
               <div className="p-4">
                 <div className="flex items-center justify-between mb-4">
@@ -482,26 +482,7 @@ export const Home = ({ onNavigate }: HomeProps): JSX.Element => {
                     </Card>
                   ))}
                 </div>
-          {/* Bottom Navigation */}
-          <div className="bg-white border-t border-gray-200 px-4 py-2">
-            <div className="flex justify-around items-center">
-              {navItems.map((item, index) => (
-                <button
-                  key={index}
-                  onClick={() => onNavigate(item.screen)}
-                  className="flex flex-col items-center justify-center py-2 px-3 rounded-lg hover:bg-gray-50 transition-colors"
-                >
-                  <div className={`mb-1 ${item.active ? "text-black" : "text-gray-400"}`}>
-                    {item.icon}
-                  </div>
-                  <span
-                    className={`text-xs ${item.active ? "text-black font-medium" : "text-gray-400"}`}
-                  >
-                    {item.label}
-                  </span>
-                </button>
-              ))}
-            </div>
+
                 {/* Weekly Engagement Summary */}
                 <Card className="bg-gray-50 rounded-lg p-4 border-0 mt-6">
                   <div className="text-center">
@@ -525,6 +506,28 @@ export const Home = ({ onNavigate }: HomeProps): JSX.Element => {
                 </Card>
               </div>
             )}
+          </div>
+
+          {/* Bottom Navigation */}
+          <div className="bg-white border-t border-gray-200 px-4 py-2">
+            <div className="flex justify-around items-center">
+              {navItems.map((item, index) => (
+                <button
+                  key={index}
+                  onClick={() => onNavigate(item.screen)}
+                  className="flex flex-col items-center justify-center py-2 px-3 rounded-lg hover:bg-gray-50 transition-colors"
+                >
+                  <div className={`mb-1 ${item.active ? "text-black" : "text-gray-400"}`}>
+                    {item.icon}
+                  </div>
+                  <span
+                    className={`text-xs ${item.active ? "text-black font-medium" : "text-gray-400"}`}
+                  >
+                    {item.label}
+                  </span>
+                </button>
+              ))}
+            </div>
           </div>
         </div>
       </div>
