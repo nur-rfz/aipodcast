@@ -200,7 +200,6 @@ export const Frame = (): JSX.Element => {
         };
         
         setGeneratedPodcast(podcastData);
-        setIsGeneratingPodcast(false);
         
         // Add completion message with options
         const completionMessage = {
@@ -217,6 +216,8 @@ export const Frame = (): JSX.Element => {
         };
         
         setMessages(prev => [...prev, completionMessage]);
+        setIsGeneratingPodcast(false);
+        setIsTyping(false);
       }
     }, 1500); // Progress every 1.5 seconds
   };
