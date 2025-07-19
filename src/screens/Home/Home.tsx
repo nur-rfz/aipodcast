@@ -11,6 +11,58 @@ interface HomeProps {
 export const Home = ({ onNavigate }: HomeProps): JSX.Element => {
   const [activeTab, setActiveTab] = useState("followers");
 
+  // Podcast engagement data
+  const podcastEngagement = [
+    {
+      episodeTitle: "Morning Motivation",
+      episodeNumber: "Episode 12",
+      timeAgo: "2 hours ago",
+      likes: [
+        { name: "Alex Thompson", username: "@alexthompson", avatar: "AT" },
+        { name: "Sarah Chen", username: "@sarahchen", avatar: "SC" },
+        { name: "Mike Rodriguez", username: "@mikerod", avatar: "MR" },
+      ],
+      comments: [
+        { 
+          name: "Emma Wilson", 
+          username: "@emmawilson", 
+          avatar: "EW",
+          comment: "Great insights on productivity! Really helped me start my day better.",
+          timeAgo: "1 hour ago"
+        },
+        { 
+          name: "David Kim", 
+          username: "@davidkim", 
+          avatar: "DK",
+          comment: "Love this series! When's the next episode coming out?",
+          timeAgo: "30 minutes ago"
+        },
+      ],
+      totalLikes: 24,
+      totalComments: 8,
+    },
+    {
+      episodeTitle: "Tech Trends 2025",
+      episodeNumber: "Episode 8",
+      timeAgo: "1 day ago",
+      likes: [
+        { name: "Sarah Chen", username: "@sarahchen", avatar: "SC" },
+        { name: "David Kim", username: "@davidkim", avatar: "DK" },
+      ],
+      comments: [
+        { 
+          name: "Alex Thompson", 
+          username: "@alexthompson", 
+          avatar: "AT",
+          comment: "Fascinating predictions! The AI section was particularly insightful.",
+          timeAgo: "18 hours ago"
+        },
+      ],
+      totalLikes: 18,
+      totalComments: 5,
+    },
+  ];
+
   // Navigation items data
   const navItems = [
     {
