@@ -392,7 +392,96 @@ export const Home = ({ onNavigate }: HomeProps): JSX.Element => {
               </div>
             )}
           </div>
+            {activeTab === "engagement" && (
+              <div className="p-4">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-lg font-medium text-gray-800">Episode Engagement</h3>
+                  <span className="text-sm text-gray-500">This Week</span>
+                </div>
+                
+                {/* Engagement Cards */}
+                <div className="space-y-6">
+                  {podcastEngagement.map((episode, index) => (
+                    <Card key={index} className="border border-gray-200 rounded-lg p-4">
+                      {/* Episode Header */}
+                      <div className="flex items-center gap-3 mb-4">
+                        <div className="w-12 h-12 bg-gray-400 rounded-lg flex items-center justify-center">
+                          <MicIcon className="w-4 h-4 text-white" />
+                        </div>
+                        <div className="flex-1">
+                          <h4 className="font-medium text-gray-800 text-base">{episode.episodeTitle}</h4>
+                          <p className="text-sm text-gray-600">{episode.episodeNumber} • {episode.timeAgo}</p>
+                        </div>
+                        <div className="flex items-center gap-3 text-sm text-gray-500">
+                          <div className="flex items-center gap-1">
+                            <HeartIcon className="w-4 h-4" />
+                            <span>{episode.totalLikes}</span>
+                          </div>
+                          <div className="flex items-center gap-1">
+                            <MessageCircleIcon className="w-4 h-4" />
+                            <span>{episode.totalComments}</span>
+                          </div>
+                        </div>
+                      </div>
 
+                      {/* Likes Section */}
+                      <div className="mb-4">
+                        <div className="flex items-center gap-2 mb-2">
+                          <div className="flex -space-x-2">
+                            {episode.likes.slice(0, 3).map((user, userIndex) => (
+                              <Avatar key={userIndex} className="w-6 h-6 border-2 border-white">
+                                <AvatarFallback className="bg-gray-300 text-gray-600 text-xs">
+                                  {user.avatar}
+                                </AvatarFallback>
+                              </Avatar>
+                            ))}
+                            {episode.totalLikes > 3 && (
+                              <div className="w-6 h-6 bg-gray-200 rounded-full border-2 border-white flex items-center justify-center">
+                                <span className="text-xs text-gray-600">+{episode.totalLikes - 3}</span>
+                              </div>
+                            )}
+                          </div>
+                          <p className="text-sm text-gray-600">
+                            {episode.likes.length === 1 
+                              ? `${episode.likes[0].name} liked this`
+                              : episode.likes.length === 2
+                              ? `${episode.likes[0].name} and ${episode.likes[1].name} liked this`
+                              : `${episode.likes[0].name}, ${episode.likes[1].name} and ${episode.totalLikes - 2} others liked this`
+                            }
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Comments Section */}
+                      <div className="space-y-3">
+                        {episode.comments.map((comment, commentIndex) => (
+                          <div key={commentIndex} className="flex gap-3">
+                            <Avatar className="w-8 h-8">
+                              <AvatarFallback className="bg-gray-300 text-gray-600 text-xs">
+                                {comment.avatar}
+                              </AvatarFallback>
+                            </Avatar>
+                            <div className="flex-1">
+                              <div className="bg-gray-50 rounded-lg p-3">
+                                <div className="flex items-center gap-2 mb-1">
+                                  <span className="font-medium text-gray-800 text-sm">{comment.name}</span>
+                                  <span className="text-xs text-gray-500">{comment.timeAgo}</span>
+                                </div>
+                                <p className="text-sm text-gray-700">{comment.comment}</p>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                        
+                        {episode.totalComments > episode.comments.length && (
+                          <Button variant="ghost" className="text-sm text-gray-500 hover:text-gray-700 p-0 h-auto">
+                            View {episode.totalComments - episode.comments.length} more comments
+                          </Button>
+                        )}
+                      </div>
+                    </Card>
+                  ))}
+                </div>
           {/* Bottom Navigation */}
           <div className="bg-white border-t border-gray-200 px-4 py-2">
             <div className="flex justify-around items-center">
@@ -413,6 +502,29 @@ export const Home = ({ onNavigate }: HomeProps): JSX.Element => {
                 </button>
               ))}
             </div>
+                {/* Weekly Engagement Summary */}
+                <Card className="bg-gray-50 rounded-lg p-4 border-0 mt-6">
+                  <div className="text-center">
+                    <h4 className="font-medium text-gray-800 mb-1">This Week's Engagement</h4>
+                    <p className="text-sm text-gray-600 mb-3">Your podcasts are growing!</p>
+                    <div className="grid grid-cols-3 gap-4 text-center">
+                      <div>
+                        <div className="text-lg font-semibold text-gray-800">42</div>
+                        <div className="text-xs text-gray-600">New Likes</div>
+                      </div>
+                      <div>
+                        <div className="text-lg font-semibold text-gray-800">13</div>
+                        <div className="text-xs text-gray-600">Comments</div>
+                      </div>
+                      <div>
+                        <div className="text-lg font-semibold text-gray-800">156</div>
+                        <div className="text-xs text-gray-600">New Plays</div>
+                      </div>
+                    </div>
+                  </div>
+                </Card>
+              </div>
+            )}
           </div>
         </div>
       </div>
